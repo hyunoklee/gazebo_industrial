@@ -1,0 +1,14 @@
+material arm_map
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture arm_map.png
+      }
+    }
+  }
+}
+
