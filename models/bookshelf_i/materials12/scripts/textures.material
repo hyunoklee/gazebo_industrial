@@ -1,0 +1,13 @@
+material BookShelf/12
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture 12.png
+      }
+    }
+  }
+}
