@@ -1,5 +1,4 @@
 <launch>
-  <!--<env name="GAZEBO_RESOURCE_PATH" value="$(find turtlebot3_gazebo)/models/turtlebot3_autorace/ground_picture" />-->
   <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
 
   <arg name="x_pos" default="0"/>
@@ -12,7 +11,7 @@
   </include>   
   
   <param name="robot_description"
-   command="$(find xacro)/xacro --inorder '$(find open_manipulator_with_tb3_description)/urdf/open_manipulator_with_tb3_waffle.urdf.xacro'"/>
+   command="$(find xacro)/xacro --inorder '$(find gazebo_indus)/urdf/open_manipulator_with_tb3_waffle.urdf.xacro'"/>
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
      args="-urdf -model open_manipulator -z 0.0 -param robot_description"/>
   <include file="$(find open_manipulator_gazebo)/launch/open_manipulator_controller.launch"/>
