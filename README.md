@@ -19,8 +19,6 @@ $ git clone https://github.com/ROBOTIS-GIT/open_manipulator_msgs.git
 $ git clone https://github.com/ROBOTIS-GIT/open_manipulator_simulations.git
 $ cd ~/catkin_ws && catkin_make
 $ cd ~/catkin_ws/src
-$ git clone https://github.com/ROBOTIS-GIT/open_manipulator_with_tb3.git
-  -> need build, just use 'open_manipulator_with_tb3_waffle.urdf.xacro' file . 
 ```
 
 * Second install gazebo_indus package
@@ -37,8 +35,8 @@ $ git clone https://github.com/ROBOTIS-GIT/open_manipulator_with_tb3.git
 ```bash
  $ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
  $ rostopic pub /open_manipulator/joint2_position/command std_msgs/Float64 "data: -1.0" --once
-``
+```
 * openmanipulator control
 ```bash
  $ rostopic pub /open_manipulator/joint2_position/command std_msgs/Float64 "data: -1.0" --once
-``
+```
