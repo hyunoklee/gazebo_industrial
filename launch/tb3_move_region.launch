@@ -1,0 +1,6 @@
+<launch>
+  <!-- moving region -->
+  <node pkg="gazebo_indus" type="move_region" name="move_region" output="screen">
+    <remap from="/control/cmd_vel" to="/cmd_vel" />
+  </node>
+</launch>

@@ -36,7 +36,7 @@
     <state world_name='default'>
       <sim_time>0 0</sim_time>
       <real_time>0 0</real_time>
-      <wall_time>1527381900 188800728</wall_time>
+      <wall_time>1527831225 523057149</wall_time>
       <iterations>0</iterations>
       <model name='Untitled'>
         <pose frame=''>-0.01256 0.014 0 0 -0 0</pose>
@@ -83,83 +83,83 @@
         </link>
       </model>
       <model name='beer_i'>
-        <pose frame=''>-1.05288 -1.11191 0.210002 3.7e-05 6e-06 1e-05</pose>
+        <pose frame=''>-0.928396 -0.034823 0.209992 5e-06 3.1e-05 -0.012436</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-1.05287 -1.11191 0.245002 3.7e-05 6e-06 1e-05</pose>
+          <pose frame=''>-0.928395 -0.034823 0.244992 5e-06 3.1e-05 -0.012436</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -3e-06 19.6 7.4e-05 -8e-06 -0</acceleration>
-          <wrench>0 -1e-06 7.644 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -3.822 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i'>
-        <pose frame=''>0.876907 1.25603 0.1 0 -0 0</pose>
+        <pose frame=''>1.20738 1.64357 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>0.876907 1.25603 0.1 0 -0 0</pose>
+          <pose frame=''>1.20738 1.64357 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i_0'>
-        <pose frame=''>0.878258 0.208949 0.1 0 -0 0</pose>
+        <pose frame=''>1.22066 0.201008 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>0.878258 0.208949 0.1 0 -0 0</pose>
+          <pose frame=''>1.22066 0.201008 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i_1'>
-        <pose frame=''>0.881529 -0.836875 0.1 0 -0 0</pose>
+        <pose frame=''>1.2326 -1.28674 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>0.881529 -0.836875 0.1 0 -0 0</pose>
+          <pose frame=''>1.2326 -1.28674 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i_2'>
-        <pose frame=''>-0.824938 1.25613 0.1 0 -0 0</pose>
+        <pose frame=''>-1.1837 1.64209 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-0.824938 1.25613 0.1 0 -0 0</pose>
+          <pose frame=''>-1.1837 1.64209 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i_3'>
-        <pose frame=''>-0.823403 0.210204 0.1 0 -0 0</pose>
+        <pose frame=''>-1.1646 0.202006 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-0.823403 0.210204 0.1 0 -0 0</pose>
+          <pose frame=''>-1.1646 0.202006 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bookshelf_i_4'>
-        <pose frame=''>-0.823401 -0.84034 0.1 0 -0 0</pose>
+        <pose frame=''>-1.19516 -1.25754 0.1 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-0.823401 -0.84034 0.1 0 -0 0</pose>
+          <pose frame=''>-1.19516 -1.25754 0.1 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='bowl'>
-        <pose frame=''>-0.584268 -1.09445 0.3025 0 -0 0</pose>
+        <pose frame=''>-0.916166 -0.01286 0.302502 -1.6e-05 -2e-06 2e-06</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-0.584268 -1.09445 0.3025 0 -0 0</pose>
+          <pose frame=''>-0.916166 -0.01286 0.302502 -1.6e-05 -2e-06 2e-06</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 19.6 -3e-06 -1e-06 -0</acceleration>
-          <wrench>0 0 1.96 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 2.6e-05 4e-06 0</acceleration>
+          <wrench>0 0 -0.98 0 -0 0</wrench>
         </link>
       </model>
       <model name='ground_plane'>
@@ -173,13 +173,13 @@
         </link>
       </model>
       <model name='unit_box'>
-        <pose frame=''>-1.06983 -1.10252 0.333544 0 6e-06 2e-06</pose>
+        <pose frame=''>-1.37519 -0.015631 0.333544 1e-06 0 0.027134</pose>
         <scale>0.135555 0.18008 0.062087</scale>
         <link name='link'>
-          <pose frame=''>-1.06983 -1.10252 0.333544 0 6e-06 2e-06</pose>
+          <pose frame=''>-1.37519 -0.015631 0.333544 1e-06 0 0.027134</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.119713 -6.5e-05 -0.2614 3.14156 0.715104 -3.14068</acceleration>
-          <wrench>-0.119713 -6.5e-05 -0.2614 0 -0 0</wrench>
+          <acceleration>-0.094508 -0.132908 -1.98625 1.13959 -0.097322 -3.14159</acceleration>
+          <wrench>-0.094508 -0.132908 -1.98625 0 -0 0</wrench>
         </link>
       </model>
       <light name='sun'>
@@ -188,7 +188,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>-0.002839 -0.031294 5.54304 0.817933 1.56445 0.830061</pose>
+        <pose frame=''>-0.281695 0.036612 6.31546 0.720745 1.55257 0.733309</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -2817,7 +2817,7 @@
         <collision name='collision'>
           <geometry>
             <box>
-              <size>0.999998 0.999998 1.00001</size>
+              <size>1 1 1.00002</size>
             </box>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -2837,7 +2837,7 @@
         <visual name='visual'>
           <geometry>
             <box>
-              <size>0.999998 0.999998 1.00001</size>
+              <size>1 1 1.00002</size>
             </box>
           </geometry>
           <material>
