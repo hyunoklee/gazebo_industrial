@@ -50,15 +50,16 @@ $ cd ~/catkin_ws/src
 ```
 * Run
 ```bash 
+ $ cp ~/catkin_ws/src/gazebo_industrial/map/* ~/
  $ roslaunch gazebo_indus tb3_industrial.launch
- $ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/catkin_ws/src/gazebo_indus/map/map.yaml
+ $ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/catkin_ws/src/gazebo_industrial/map/map.yaml
  $ roslaunch gazebo_indus tb3_move_region.launch
 ```
 if you want to scan room   
 ```bash 
  $ rostopic pub /move_region/goal_region std_msgs/Int8 "data: 13" --once
 ```
-if you want to move turtlebot2 at region1 of room. ( there is region 1 ~ 12 ) 
+if you want to move turtlebot3 at region1 of room. ( there is region 1 ~ 12 ) 
 ```bash 
  $ rostopic pub /move_region/goal_region std_msgs/Int8 "data: 1" --once
 ```
