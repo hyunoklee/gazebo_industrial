@@ -11,13 +11,13 @@ I modify 2 parameter
 acc_lim_theta: 3.2 ->  6.5  
 sim_time: 2.0 -> 1.0 
 
-#parameter description
-acc_lim_theta 
+#parameter description  
+acc_lim_theta   
  theta축 각가속도 제한 ( radian/sec^2)  
  (double, default: 3.2)  
- The rotational acceleration limit of the robot in radians/sec^2
+ The rotational acceleration limit of the robot in radians/sec^2  
  
-sim_time (double, default: 1.0)
- 전방향 시뮬레이션 궤적 시간
- The amount of time to forward-simulate trajectories in seconds
+sim_time (double, default: 1.0)  
+ 전방향 시뮬레이션 궤적 시간  
+ The amount of time to forward-simulate trajectories in seconds  
 
