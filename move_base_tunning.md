@@ -19,5 +19,6 @@ acc_lim_theta
  
 sim_time (double, default: 1.0)  
  전방향 시뮬레이션 궤적 시간  
- The amount of time to forward-simulate trajectories in seconds  
+ The amount of time to forward-simulate trajectories in seconds 
+ The amount of time to roll trajectories out for in seconds
 
