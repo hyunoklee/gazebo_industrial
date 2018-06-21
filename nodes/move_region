@@ -34,15 +34,26 @@ class MoveRegion():
         self.sub_arrival_status = rospy.Subscriber("/move_base/result", MoveBaseActionResult, self.cbGetNavigationResult, queue_size=1)
         self.pub_goal_pose_stamped = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=1)
         #x,y,z
-        self.region = np.array( [[0,0,0] , [1.3,0.7,0.0],[1.0,0.7,0.0],[-1.0,0.7,1.0],[-1.3,0.7,1.0],   \
-					   [1.3,-0.7,0.0],[1.0,-0.7,0.0],[-1.0,-0.7,1.0],[-1.3,-0.7,1.0]]) 
-	self.goal_reach = False
+	'''
+	self.region = np.array( [[0,0,0] , [-3.7,0.72,0.0],[-2.15,0.72,0.0],[-0.7,0.72,0.0],[0.75,0.72,0.0],   \
+					   [-3.7,-1.15,0.0],[-2.15,-1.15,0.0],[-0.7,-1.15,0.0],[0.75,-1.15,0.0]\
+					   [-3.7,-1.85,0.0],[-2.15,-1.85,0.0],[-0.7,-1.85,0.0],[0.75,-1.85,0.0]\
+					   [-3.7,-3.65,0.0],[-2.15,-3.65,0.0],[-0.7,-3.65,0.0],[0.75,-3.65,0.0]\
+					   [-3.7,-0.22,0.0],[-2.15,-0.22,0.0],[-0.7,-0.22,0.0],[0.75,-0.22,0.0]\
+					   [-3.7,-2.75,0.0],[-2.15,-2.75,0.0],[-0.7,-2.75,0.0],[0.75,-2.75,0.0]]) 
+	'''
+	self.region = np.array( [[0,0,0] , [-2.22,2.17,0.0],[-0.65,2.17,0.0],[0.84,2.17,0.0],[2.29,2.17,0.0],\
+					   [-2.22,0.31,0.0],[-0.65,0.31,0.0],[0.84,0.31,0.0],[2.29,0.31,0.0],\
+					   [-2.22,-0.365,0.0],[-0.65,-0.365,0.0],[0.84,-0.365,0.0],[2.29,-0.365,0.0],\
+					   [-2.22,-2.18,0.0],[-0.65,-2.18,0.0],[0.84,-2.18,0.0],[2.29,-2.18,0.0],\
+					   [-2.22,1.24,0.7],[-0.65,1.24,-0.7],[0.84,1.24,0.7],[2.29,1.24,-0.7],\
+					   [-2.22,-1.22,0.7],[-0.65,-1.22,-0.7],[0.84,-1.22,0.7],[2.29,-1.22,-0.7]]) 
 	self.room_scan_state = False
 	rospy.loginfo("set main")
 
     def cbPoseRegion(self, msg_goal_region):
         goal_region = msg_goal_region.data
-        if goal_region >= 0 and goal_region <= 8 :             
+        if goal_region >= 0 and goal_region <= 24 :             
 	    self.goRegion(goal_region)	    
 	elif goal_region == 13 and self.room_scan_state == False : 	    
             rospy.loginfo("room scan start")

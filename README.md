@@ -1,5 +1,6 @@
 
 # image shot
+<img src="/picture/5.png" width="70%" height="70%">
 <img src="/picture/1.png" width="70%" height="70%">
 <img src="/picture/2.png" width="70%" height="70%">
 
@@ -35,19 +36,26 @@ $ cd ~/catkin_ws/src
  $ cd ~/catkin_ws && catkin_make
 ```
 * setup model 
-```bash 
+```
  $ eb
 ```
-```bash 
+``` 
  export ROS_MASTER_URI=http://127.0.0.1:11311
  export ROS_HOSTNAME=127.0.0.1
  #export TURTLEBOT3_MODEL=burger
  export TURTLEBOT3_MODEL=waffle
  #export TURTLEBOT3_MODEL=waffle_pi
 ```
-```bash 
+``` 
  $ sb
 ```
+* Change move base parameter 
+'''
+https://github.com/ROBOTIS-GIT/turtlebot3/blob/master/turtlebot3_navigation/param/dwa_local_planner_params_waffle_pi.yaml  
+acc_lim_theta: 3.2 -> 6.5
+sim_time: 2.0 -> 1.0
+
+'''
 * Run
 ```bash 
  $ cp ~/catkin_ws/src/gazebo_industrial/map/* ~/
@@ -55,11 +63,7 @@ $ cd ~/catkin_ws/src
  $ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=$HOME/catkin_ws/src/gazebo_industrial/map/map.yaml
  $ roslaunch gazebo_indus tb3_move_region.launch
 ```
-if you want to scan room   
-```bash 
- $ rostopic pub /move_region/goal_region std_msgs/Int8 "data: 13" --once
-```
-if you want to move turtlebot3 at region1 of room. ( there is region 1 ~ 12 ) 
+if you want to move turtlebot3 at region1 of room. ( there is region 1 ~ 24 ) 
 ```bash 
  $ rostopic pub /move_region/goal_region std_msgs/Int8 "data: 1" --once
 ```
