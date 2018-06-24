@@ -21,108 +21,158 @@ import rospy
 import numpy as np
 import math
 import tf
-from std_msgs.msg import Int8
+from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, Pose
 from move_base_msgs.msg import MoveBaseActionResult
 import numpy as np
 import time
+import signal
+import sys
 
 class MoveRegion():
     def __init__(self):
-        self.sub_tunnel_order = rospy.Subscriber('/move_region/goal_pos', Pose , self.cbPose2PoseStamped, queue_size=1)
-        self.sub_tunnel_order = rospy.Subscriber('/move_region/goal_region', Int8 , self.cbPoseRegion, queue_size=1)
+        self.sub_tunnel_order = rospy.Subscriber('/move_region/goal_region', String , self.cbPoseRegion, queue_size=1)
         self.sub_arrival_status = rospy.Subscriber("/move_base/result", MoveBaseActionResult, self.cbGetNavigationResult, queue_size=1)
         self.pub_goal_pose_stamped = rospy.Publisher("/move_base_simple/goal", PoseStamped, queue_size=1)
-        #x,y,z
+
+        '''
+	W,X setting
+		 1.0, 0.0
+
+	0.7,0.7              0.7,-0.7
+		 0.0,1.0
 	'''
-	self.region = np.array( [[0,0,0] , [-3.7,0.72,0.0],[-2.15,0.72,0.0],[-0.7,0.72,0.0],[0.75,0.72,0.0],   \
-					   [-3.7,-1.15,0.0],[-2.15,-1.15,0.0],[-0.7,-1.15,0.0],[0.75,-1.15,0.0]\
-					   [-3.7,-1.85,0.0],[-2.15,-1.85,0.0],[-0.7,-1.85,0.0],[0.75,-1.85,0.0]\
-					   [-3.7,-3.65,0.0],[-2.15,-3.65,0.0],[-0.7,-3.65,0.0],[0.75,-3.65,0.0]\
-					   [-3.7,-0.22,0.0],[-2.15,-0.22,0.0],[-0.7,-0.22,0.0],[0.75,-0.22,0.0]\
-					   [-3.7,-2.75,0.0],[-2.15,-2.75,0.0],[-0.7,-2.75,0.0],[0.75,-2.75,0.0]]) 
-	'''
-	self.region = np.array( [[0,0,0] , [-2.22,2.17,0.0],[-0.65,2.17,0.0],[0.84,2.17,0.0],[2.29,2.17,0.0],\
-					   [-2.22,0.31,0.0],[-0.65,0.31,0.0],[0.84,0.31,0.0],[2.29,0.31,0.0],\
-					   [-2.22,-0.365,0.0],[-0.65,-0.365,0.0],[0.84,-0.365,0.0],[2.29,-0.365,0.0],\
-					   [-2.22,-2.18,0.0],[-0.65,-2.18,0.0],[0.84,-2.18,0.0],[2.29,-2.18,0.0],\
-					   [-2.22,1.24,0.7],[-0.65,1.24,-0.7],[0.84,1.24,0.7],[2.29,1.24,-0.7],\
-					   [-2.22,-1.22,0.7],[-0.65,-1.22,-0.7],[0.84,-1.22,0.7],[2.29,-1.22,-0.7]]) 
+        self.BR = np.array( [[-2.16,2.15,1.0, 0.0],[-0.67,2.15,1.0, 0.0],[0.8,2.15,1.0, 0.0]]) #Left Back path region [x,y,w,z]
+	self.GR = np.array( [[-2.16,1.11,0.7,0.7],[-0.67,1.11,0.7,0.7],[0.8,1.11,0.7,0.7]]) #Right Back path region [x,y,w,z]
+	self.C = np.array( [[-2.16,0.00,0.0,1.0],[-0.67,0.00,0.0,1.0],[0.8,0.00,0.0,1.0]]) #Cirle(Forward) path region [x,y,w,z]
+	self.GL = np.array( [[-2.16,-1.11,0.7,-0.7],[-0.67,-1.11,0.7,-0.7],[0.8,-1.11,0.7,-0.7]]) #Left Goal path region [x,y,w,z]
+	self.BL = np.array( [[-2.16,-2.15,1.0, 0.0],[-0.67,-2.15,1.0, 0.0],[0.8,-2.15,1.0, 0.0]]) #Right Goal path region [x,y,w,z]
+	self.P = np.array( [[2.3,2.15,0.7,-0.7],[2.3,1.11,0.7,-0.7],[2.3,0.00,0,1],[2.3,-1.11,0.7,0.7],[2.3,-2.15,0.7,0.7]]) #Parking path region [x,y,z]
+
 	self.room_scan_state = False
-	rospy.loginfo("set main")
+        self.goal_dir = "R" #R,L
+	self.goal_num = 0 #0,1,2
+        self.course_state = "INIT" #WAIT,CIRCLE,GOAL,BACK ,PARK, INIT
+	self.goal_reach = True
+	self.finish = False
+	time.sleep(1)
+	self.course_state = "PARK"
+	self.goRegion(self.P[2])
+	self.course_state = "WAIT"
+	rospy.loginfo("set main")		
 
     def cbPoseRegion(self, msg_goal_region):
+	#GR0, GR1, GR2 , GL0, GL1, GL2
         goal_region = msg_goal_region.data
-        if goal_region >= 0 and goal_region <= 24 :             
-	    self.goRegion(goal_region)	    
-	elif goal_region == 13 and self.room_scan_state == False : 	    
-            rospy.loginfo("room scan start")
-            self.startRoomScan()
-        else : 
-            rospy.loginfo("no support set")
+        if self.course_state != "WAIT"  :
+	    rospy.loginfo("robot state is not parking," + self.course_state )
+	    return
+	if len(goal_region) != 3 or goal_region[0] != "G" :
+	    rospy.loginfo("not support command 1")
+	    return
 
-    def cbPose2PoseStamped(self, goal_pos):
-        self.fnPubGoalPose(goal_pos)
-    
+	tmp_goal_dir= goal_region[1]
+	tmp_goal_num= int(goal_region[2])
+	if ( tmp_goal_dir != "R" and tmp_goal_dir != "L" ) or ( tmp_goal_num > 2 ) or ( tmp_goal_num < 0 ):
+	    rospy.loginfo("not support command 2")
+	    return    
+ 	self.goal_dir = tmp_goal_dir
+	self.goal_num = tmp_goal_num
+	
+	self.course_state = "CIRCLE"
+	self.circleOperating()
+	self.course_state = "GOAL"
+	self.goalOperating()
+	self.course_state = "BACK"
+	self.backOperating()
+	self.course_state = "PARK"
+	self.parkOperating()
+	self.course_state = "WAIT" 
+	
+
+    def circleOperating(self):
+	rospy.loginfo("circleOperating")	
+	step = 2 
+	while True:
+	    self.goRegion(self.C[step])
+	    if self.goal_num == step or self.finish == True :
+		break
+	    step = step - 1    
+
+    def goalOperating(self):
+	rospy.loginfo("goalOperating" + self.goal_dir)	
+	if self.goal_dir == "L" :
+	    rospy.loginfo("goalOperatingL")
+	    self.goRegion(self.GL[self.goal_num])
+	elif self.goal_dir == "R" :
+	    rospy.loginfo("goalOperatingR")
+	    self.goRegion(self.GR[self.goal_num])
+
+    def backOperating(self):
+	rospy.loginfo("backOperating")	
+	step = self.goal_num 	
+	if self.goal_dir == "L" :	    
+	    while True:
+	    	self.goRegion(self.BL[step])
+	    	if step == 2 or self.finish == True :
+		    break
+	        step = step + 1 
+	elif self.goal_dir == "R" :
+	    while True:
+	    	self.goRegion(self.BR[step])
+	    	if step == 2 or self.finish == True :
+		    break
+	        step = step + 1 
+
+    def parkOperating(self):
+	rospy.loginfo("parkOperating")		
+	if self.goal_dir == "L" :	
+	    step = 4 	    
+	    while True:
+	    	self.goRegion(self.P[step])
+	    	if step == 2 or self.finish == True :
+		    break
+	        step = step - 1 
+	elif self.goal_dir == "R" :
+	    step = 0 
+	    while True:
+	    	self.goRegion(self.P[step])
+	    	if step == 2 or self.finish == True :
+		    break
+	        step = step + 1 
+
+    def goRegion(self, step_region):
+        rospy.loginfo("go region" + str(step_region)) 
+	self.goal_reach = False
+        goal_pos = Pose()
+	goal_pos.position.x = step_region[0]
+        goal_pos.position.y = step_region[1]
+        goal_pos.position.z = 0.0 
+	goal_pos.orientation.w = step_region[2]
+        goal_pos.orientation.x = 0.0
+        goal_pos.orientation.y = 0.0
+        goal_pos.orientation.z = step_region[3]	
+	goalPoseStamped = PoseStamped()
+        goalPoseStamped.header.frame_id = "map"
+        goalPoseStamped.header.stamp = rospy.Time.now()
+        goalPoseStamped.pose = goal_pos
+        self.pub_goal_pose_stamped.publish(goalPoseStamped)
+	self.waitReached()
+
+    def waitReached(self):
+	while True:
+	    if self.goal_reach == True or self.finish == True:
+		break
+	    time.sleep(0.1)		     
+
     def cbGetNavigationResult(self, msg_nav_result):
         if msg_nav_result.status.status == 3:
             rospy.loginfo("Reached")
 	    self.goal_reach = True
 
-    def startRoomScan(self):
-        self.goal_reach = False
-	self.room_scan_state = True
-
-        self.goRegion(1)
-        while True:
-	    if self.goal_reach == True :
-		break
-            time.sleep(0.5)
-
-        self.goRegion(4)
-        while True:
-	    if self.goal_reach == True :
-		break
-            time.sleep(0.5)
-
-        self.goRegion(0)
-        while True:
-	    if self.goal_reach == True :
-		break
-            time.sleep(0.5)
-
-        self.goRegion(5) 
-        while True:
-	    if self.goal_reach == True :
-		break
-            time.sleep(0.5)
-
-        self.goRegion(8) 
-        while True:
-	    if self.goal_reach == True :
-		break
-            time.sleep(0.5)    
-	self.room_scan_state = False
-
-    def goRegion(self, goal_region):
-        rospy.loginfo("go region" + str(goal_region)) 
-	self.goal_reach = False
-        goal_pos = Pose()
-	goal_pos.position.x = self.region[goal_region][0]
-        goal_pos.position.y = self.region[goal_region][1]
-        goal_pos.position.z = 0.0 
-        goal_pos.orientation.x = 0.0
-        goal_pos.orientation.y = 0.0
-        goal_pos.orientation.z = self.region[goal_region][2]
-	goal_pos.orientation.w = 0.1
-	self.fnPubGoalPose(goal_pos)      
-
-    def fnPubGoalPose(self, goal_pos):
-        goalPoseStamped = PoseStamped()
-        goalPoseStamped.header.frame_id = "map"
-        goalPoseStamped.header.stamp = rospy.Time.now()
-        goalPoseStamped.pose = goal_pos
-        self.pub_goal_pose_stamped.publish(goalPoseStamped)
+    def onShutdown(self):
+	self.finish = True
+        rospy.loginfo("move region shutdown")
 
     def main(self):
         rospy.spin()
@@ -130,4 +180,5 @@ class MoveRegion():
 if __name__ == '__main__':
     rospy.init_node('move_region')
     node = MoveRegion()
+    rospy.on_shutdown(node.onShutdown)
     node.main()
