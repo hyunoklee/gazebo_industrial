@@ -1,10 +1,6 @@
 
 # image shot
-<<<<<<< HEAD
 <img src="/picture/path_map.png.png" width="70%" height="70%">
-=======
-<img src="/picture/8.png" width="70%" height="70%">
->>>>>>> f3c5882d547f5643149c92925fd55eaaab632a4e
 <img src="/picture/1.png" width="70%" height="70%">
 <img src="/picture/2.png" width="70%" height="70%">
 
